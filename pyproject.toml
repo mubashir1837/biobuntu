@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "biobuntu"
-version = "1.0.0"
+version = "1.0.1"
 description = "A comprehensive platform for running genomic analysis pipelines with CLI, GUI, and web interfaces. Perfect for researchers, labs, and bioinformatics teams."
 readme = { file = "README.md", content-type = "text/markdown" }
 authors = [
@@ -27,7 +27,7 @@ classifiers = [
 Homepage = "https://biobuntu.github.io/"
 Source = "https://github.com/biobuntu/biobuntu"
 Tracker = "https://github.com/biobuntu/biobuntu/issues"
-Documentation = "https://biobuntu.github.io/"
+Documentation = "https://biobuntu.github.io/docs"
 
 [project.scripts]
 biobuntu = "cli.cli:main"
