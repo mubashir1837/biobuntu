@@ -7,7 +7,6 @@ name = "biobuntu"
 version = "1.0.0"
 description = "A comprehensive platform for running genomic analysis pipelines with CLI, GUI, and web interfaces. Perfect for researchers, labs, and bioinformatics teams."
 readme = { file = "README.md", content-type = "text/markdown" }
-license = "MIT"
 authors = [
     {name = "BioBuntu", email = "info@biobuntu.com"},
 ]
