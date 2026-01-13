@@ -9,7 +9,7 @@
 
 A comprehensive bioinformatics platform for running pipelines, with CLI, GUI, and web interfaces.
 
-## 🚀 Features
+## Features
 
 - **Project Management**: Create and manage bioinformatics projects with organized directory structures
 - **Advanced Pipelines**: Support for complex workflows with dependencies and parallel execution
