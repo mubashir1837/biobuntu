@@ -1,6 +1,10 @@
 <p align="center">
-  <img src="logo.svg" alt="BioBuntu Logo" width="300">
+  <img width="607" height="215" alt="biobuntu" src="https://github.com/user-attachments/assets/0d82cc8f-82ef-468a-b615-4f35a5a141c6" />
 </p>
+
+
+
+
 
 # BioBuntu
 
