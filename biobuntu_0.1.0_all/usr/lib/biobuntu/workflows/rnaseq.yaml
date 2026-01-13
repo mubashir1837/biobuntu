@@ -1,0 +1,18 @@
+name: RNA-seq Pipeline
+description: Standard RNA-seq analysis pipeline
+steps:
+  - name: Quality Control
+    tool: fastqc
+    inputs:
+      - input_file
+    outputs:
+      - qc_report
+  - name: Alignment
+    tool: hisat2
+    inputs:
+      - input_fastq1
+      - input_fastq2
+    parameters:
+      index: genome_index
+    outputs:
+      - aligned_sam

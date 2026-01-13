@@ -1,0 +1,4 @@
+name: Metagenomics Pipeline
+steps:
+  - name: QC
+    tool: fastqc

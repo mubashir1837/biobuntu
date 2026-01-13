@@ -1,0 +1,3 @@
+default_config:
+  threads: 4
+  memory: 8GB

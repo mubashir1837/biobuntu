@@ -1,0 +1,6 @@
+name: Variant Calling Pipeline
+steps:
+  - name: Align
+    tool: bwa
+  - name: Call Variants
+    tool: gatk

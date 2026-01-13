@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "biobuntu"
+version = "0.1.0"
+description = "Bioinformatics platform"
+authors = [
+    {name = "GenomeHouse", email = "info@genomehouse.com"},
+]
+dependencies = [
+    "click",
+    "pyyaml",
+    "flask",
+]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+biobuntu = "cli.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["core", "cli", "gui", "web", "tools", "configs"]

@@ -1,0 +1,40 @@
+package:
+  name: biobuntu
+  version: 0.1.0
+
+source:
+  path: ..
+
+build:
+  noarch: python
+  script: python -m pip install --no-deps --ignore-installed .
+  entry_points:
+    - biobuntu = cli.cli:main
+
+requirements:
+  host:
+    - python >=3.8
+    - pip
+    - setuptools
+  run:
+    - python >=3.8
+    - click
+    - pyyaml
+    - flask
+    - werkzeug
+    - jinja2
+    - itsdangerous
+    - blinker
+
+about:
+  home: https://github.com/GenomeHouse/biobuntu
+  license: MIT
+  license_file: LICENSE
+  summary: Bioinformatics platform for running pipelines
+  description: |
+    BioBuntu is a comprehensive bioinformatics platform with CLI, GUI, and web interfaces
+    for running complex analysis pipelines.
+
+extra:
+  recipe-maintainers:
+    - GenomeHouse

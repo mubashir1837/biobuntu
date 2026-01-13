@@ -1,0 +1,3 @@
+tools:
+  fastqc: /usr/bin/fastqc
+  bwa: /usr/bin/bwa

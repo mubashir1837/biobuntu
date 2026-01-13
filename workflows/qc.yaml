@@ -1,0 +1,4 @@
+name: QC Pipeline
+steps:
+  - name: Quality Check
+    tool: fastqc

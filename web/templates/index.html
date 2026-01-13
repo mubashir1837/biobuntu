@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioBuntu Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.svg') }}" type="image/svg+xml">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="flex items-center gap-4">
+                <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="BioBuntu Logo" style="height: 40px;">
+                <div>
+                    <h1 style="margin: 0; font-size: 2rem;">BioBuntu</h1>
+                    <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">Advanced Bioinformatics Platform</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav">
+            <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+            <button class="nav-btn" data-view="projects">Projects</button>
+            <button class="nav-btn" data-view="workflows">Workflows</button>
+            <button class="nav-btn" data-view="run">Run Pipeline</button>
+            <button class="nav-btn" data-view="jobs">Remote Jobs</button>
+            <button class="nav-btn" data-view="status">System Status</button>
+            <button class="nav-btn btn-secondary" onclick="showKeyboardShortcuts()" style="margin-left: auto;">❓ Help</button>
+        </nav>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="section">
+            <h2>Dashboard Overview</h2>
+            <div class="alert alert-success">
+                <span>Welcome to BioBuntu! Your bioinformatics platform is ready.</span>
+            </div>
+
+            <div class="form-row gap-4">
+                <div class="section" style="flex: 1;">
+                    <h3>Quick Actions</h3>
+                    <button class="btn" onclick="showCreateProject()">Create New Project</button>
+                    <button class="btn btn-secondary" onclick="switchView('run')">Run Pipeline</button>
+                </div>
+
+                <div class="section" style="flex: 1;">
+                    <h3>System Status</h3>
+                    <div id="status-content">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <span>Loading system status...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row gap-4">
+                <div class="section" style="flex: 1;">
+                    <h3>Recent Projects</h3>
+                    <div id="projects-list">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <span>Loading projects...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section" style="flex: 1;">
+                    <h3>Active Jobs</h3>
+                    <div id="remote-jobs-list">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <span>Loading jobs...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects-section" class="section" style="display: none;">
+            <h2>Project Management</h2>
+            <div class="mb-2">
+                <button class="btn" onclick="showCreateProject()">Create New Project</button>
+                <button class="btn btn-secondary" onclick="refreshAll()">Refresh</button>
+            </div>
+            <div id="projects-list">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <span>Loading projects...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflows Section -->
+        <section id="workflows-section" class="section" style="display: none;">
+            <h2>Available Workflows</h2>
+            <div class="mb-2">
+                <button class="btn btn-secondary" onclick="refreshAll()">Refresh</button>
+            </div>
+            <div id="workflows-list">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <span>Loading workflows...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Run Pipeline Section -->
+        <section id="run-section" class="section" style="display: none;">
+            <h2>Run Pipeline</h2>
+
+            <div class="form-group">
+                <label for="project-select">Select Project:</label>
+                <select id="project-select" required>
+                    <option value="">Loading projects...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="workflow-select">Select Workflow:</label>
+                <select id="workflow-select" required>
+                    <option value="">Loading workflows...</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="file-input">Input Files:</label>
+                <input type="file" id="file-input" multiple accept=".fastq,.fq,.fasta,.fa,.bam,.sam,.vcf,.txt,.csv">
+                <ul id="file-list" class="mt-1"></ul>
+            </div>
+
+            <div class="form-group">
+                <label for="callback-url">Callback URL (optional):</label>
+                <input type="url" id="callback-url" placeholder="https://your-app.com/webhook">
+                <small class="text-secondary">Receive notifications when the job completes</small>
+            </div>
+
+            <div class="form-row gap-2">
+                <button class="btn" onclick="runPipeline()">Run Locally</button>
+                <button class="btn btn-success" onclick="runRemotePipeline()">Run Remotely</button>
+            </div>
+
+            <div class="alert alert-warning mt-2">
+                <strong>Note:</strong> Remote execution requires a properly configured worker environment.
+            </div>
+        </section>
+
+        <!-- Remote Jobs Section -->
+        <section id="jobs-section" class="section" style="display: none;">
+            <h2>Remote Jobs</h2>
+            <div class="mb-2">
+                <button class="btn btn-secondary" onclick="loadRemoteJobs()">Refresh</button>
+            </div>
+            <div id="remote-jobs-list">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <span>Loading remote jobs...</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- System Status Section -->
+        <section id="status-section" class="section" style="display: none;">
+            <h2>System Status</h2>
+            <div class="mb-2">
+                <button class="btn btn-secondary" onclick="loadStatus()">Refresh</button>
+            </div>
+            <div id="status-content">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <span>Loading system status...</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h3>System Information</h3>
+                <table class="table">
+                    <tr>
+                        <td><strong>Platform:</strong></td>
+                        <td>Linux/Ubuntu-based bioinformatics workstation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Architecture:</strong></td>
+                        <td>Multi-platform (x86_64, ARM64)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Package Manager:</strong></td>
+                        <td>Conda + pip + system packages</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Web Framework:</strong></td>
+                        <td>Flask + REST API</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CLI Framework:</strong></td>
+                        <td>Click</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Create Project Modal -->
+    <div id="create-project-modal" class="modal">
+        <div class="modal-content">
+            <h3>Create New Project</h3>
+            <form onsubmit="createProject(); return false;">
+                <div class="form-group">
+                    <label for="project-name">Project Name:</label>
+                    <input type="text" id="project-name" required placeholder="Enter project name">
+                </div>
+                <div class="form-group">
+                    <label for="project-desc">Description:</label>
+                    <textarea id="project-desc" rows="3" placeholder="Enter project description (optional)"></textarea>
+                </div>
+                <div class="form-row gap-2">
+                    <button type="submit" class="btn">Create Project</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideCreateProject()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="text-align: center; margin-top: 2rem; padding: 1rem; color: var(--text-secondary); border-top: 1px solid var(--border-color);">
+        <div class="flex justify-between items-center" style="max-width: 1400px; margin: 0 auto; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <p style="margin: 0;"><strong>BioBuntu</strong> - Advanced Bioinformatics Platform</p>
+                <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem;">Built with Flask, Click, and modern web technologies</p>
+            </div>
+            <div class="text-right">
+                <p style="margin: 0; font-size: 0.875rem;">&copy; 2026 GenomeHouse</p>
+                <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem;">
+                    <a href="#" onclick="showKeyboardShortcuts()" style="color: var(--primary-color); text-decoration: none;">Keyboard Shortcuts</a> |
+                    <a href="https://github.com/GenomeHouse/biobuntu" target="_blank" style="color: var(--primary-color); text-decoration: none;">GitHub</a> |
+                    <a href="/docs" target="_blank" style="color: var(--primary-color); text-decoration: none;">Documentation</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

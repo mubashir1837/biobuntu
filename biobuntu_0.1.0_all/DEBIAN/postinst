@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+# Install Python dependencies
+pip3 install -e /usr/lib/biobuntu
+
+# Make executable
+chmod +x /usr/bin/biobuntu
+
+# Update desktop database
+if command -v update-desktop-database >/dev/null 2>&1; then
+    update-desktop-database
+fi
+
+# Update icon cache
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+    gtk-update-icon-cache -f -t /usr/share/icons/hicolor
+fi
+
+echo "BioBuntu installed successfully!"
+echo "• Launch from Applications menu or run: biobuntu --help"
+echo "• Web interface: biobuntu web"
