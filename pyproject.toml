@@ -4,11 +4,11 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "biobuntu"
-version = "0.1.0"
-description = "Bioinformatics platform"
+version = "1.0.0"
+description = "A comprehensive platform for running genomic analysis pipelines with CLI, GUI, and web interfaces. Perfect for researchers, labs, and bioinformatics teams."
 readme = "README.md"
 authors = [
-    {name = "GenomeHouse", email = "info@genomehouse.com"},
+    {name = "BioBuntu", email = "info@biobuntu.com"},
 ]
 dependencies = [
     "click",
